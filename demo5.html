@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
+  <script src="../public/js/bootstrap.min.js"></script>
+  <title>demo5</title>
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center">Asset Management System</h1>
+  <form id="loginForm" class="border border-primary mt-5 mx-auto shadow-lg rounded " 
+  style=" width: 20rem; height: 16rem;">
+
+    <div class="mt-4 mx-4">
+      <label for="username">Username</label>
+      <input type="text" id="username" class="form-control">
+      <label for="password">Password</label>
+      <input type="password" id="password" class="form-control">
+    </div>
+
+    <div class="mx-4 mt-3 ">
+      <button id="submit" class="btn btn-primary btn-lg 
+      form-control py-2">sign in</button>
+    </div>
+  </form>
+</div>
+
+  <script>
+    const users = [
+      {"id" : 1, "username" : "admin", "password": "1111", "role": 1},
+      {"id" : 2, "username" : "aaa", "password": "2222", "role": 2},
+      {"id" : 3, "username" : "bbb", "password": "3333", "role": 3}
+    ];
+
+    document.querySelector(`#submit`).onclick = function(e) {
+      e.preventDefault();
+      const username = document.querySelector(`#username`).value;
+      const password = document.querySelector(`#password`).value;
+
+      const user = users.find(user => user.username === username && user.password === password);
+      if (user) {
+        window.location.assign(`assest.html`);
+        } else {
+        Swal.fire ({
+          icon: 'error',
+          title: 'Error',
+          text: 'Login failed, try again!'
+        });
+      }
+    }
+  </script>
+</body>
+</html>
