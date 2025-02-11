@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../public/css/bootstrap.min.css">
+  <script src="../public/js/bootstrap.min.js"></script>
+  <title>Registration Demo</title>
+  <style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-3">
+    <h2>Registration</h2>
+
+    <div class="form-outline w-50">
+      <input class="form-control mb-2 mt-3" type="text" id="username" placeholder="Enter username">
+    </div>
+
+    <div class="form-outline w-50">
+      <input class="form-control mb-2 mt-2" type="password" id="password" placeholder="Enter password">
+    </div>
+
+    <div class="form-outline w-50">
+      <input class="form-control mb-2 mt-2" type="password" id="repassword" placeholder="Re-enter password">
+    </div>
+
+    <header class="text-primary w-50" id="captchaText">Captcha = </header>
+
+    <div class="form-outline w-50">
+      <input class="form-control mb-2 mt-2" type="number" id="captchaInput" placeholder="Enter captcha">
+    </div>
+
+    <!-- Register Button -->
+    <button onclick="validateForm()" class="btn btn-primary">Register</button>
+
+    <!-- Error messages appear here -->
+    <div id="errorMessages" class="error hidden"></div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="alert alert-success mt-3 hidden">Registration Successful!</div>
+  </div>
+
+  <script>
+    // Generate and display captcha
+    function generateCaptcha() {
+      return Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+    }
+    
+    let captchaCode = generateCaptcha();
+    document.getElementById("captchaText").innerText = "Captcha = " + captchaCode;
+
+    function validateForm() {
+      // Get input values
+      let username = document.getElementById("username").value.trim();
+      let password = document.getElementById("password").value;
+      let repassword = document.getElementById("repassword").value;
+      let captchaInput = document.getElementById("captchaInput").value;
+
+      // Error message container
+      let errorMessages = document.getElementById("errorMessages");
+      let successMessage = document.getElementById("successMessage");
+
+      // Reset messages
+      errorMessages.innerHTML = "";
+      errorMessages.classList.add("hidden");
+      successMessage.classList.add("hidden");
+
+      let errors = [];
+
+      // Validate username
+      if (username === "") {
+        errors.push("⚠ Username is required!");
+      }
+
+      // Validate password match
+      if (password === "") {
+        errors.push("⚠ Password cannot be empty!");
+      } else if (password !== repassword) {
+        errors.push("⚠ Passwords do not match!");
+      }
+
+      // Validate captcha
+      if (captchaInput != captchaCode) {
+        errors.push("⚠ Incorrect captcha!");
+      }
+
+      // Display errors
+      if (errors.length > 0) {
+        errorMessages.innerHTML = errors.join("<br>");
+        errorMessages.classList.remove("hidden");
+      } else {
+        successMessage.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
