@@ -1,84 +1,62 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="public/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.33/dist/sweetalert2.all.min.js"></script>
   <script src="public/bootstrap.min.js"></script>
-  <title>Registration</title>
+  <title>Asset Management Sytem</title>
 </head>
-<style>
-   input[type="number"]::-webkit-inner-spin-button,
-   input[type="number"]::-webkit-outer-spin-button {
-    opacity: 1;
-   }
-</style>
 <body>
-  <div class="container mt-3">
-    <h2>Registration</h2>
+  <div class="container mt-5 ">
+    <h1 class="text-center">Asset Management System</h1>
+    <form id="loginForm" class="border border-primary mt-5 mx-auto shadow-lg rounded" 
+    style="width: 20rem; height: 16rem">
 
-    <div class="form-ouline mt-3 w-50">
-      <input class="form-control mb-2" type="text" id="username" placeholder="Enter username">
-    </div>
+      <div class="mt-4 mx-4">
+        <label for="username">Username</label>
+        <input type="text" id="username" class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control">
+      </div>
 
-    <div class="form-ouline w-50">
-      <input class="form-control mb-2" type="password" id="password" placeholder="Enter password">
-    </div>
-
-    <div class="form-outline w-50">
-      <input class="form-control mb-2" type="password" id="repassword" placeholder="Re-enter password">
-    </div>
-
-    <header class="text-primary w-50" id="captcha-display">Captcha = </header>
-
-    <div class="form-ouline w-50">
-      <input class="form-control mb-2 mt-2" type="number" id="captcha" placeholder="Enter captcha">
-    </div>
-
-    <button onclick="checkForm()" class="btn btn-primary">Register</button>
-    <h4 id="message" class="mt-3"></h4>
-
+      <div class="mt-3 mx-4">
+        <button id="submit" class="btn btn-primary form-control btn-lg">Sign in</button>
+      </div>
+      
+    </form>
   </div>
 
   <script>
-    let captchaValue;
-    function getRandomCaptcha () {
-      captchaValue = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-      document.getElementById('captcha-display').innerText = 'Captcha = ' + captchaValue;
-    }
-    getRandomCaptcha();
+    const users = [
+      {"id": 1, "username": "admin", "password": "1111", "role": 1},
+      {"id": 2, "username": "aaa", "password": "2222", "role": 2},
+      {"id": 3, "username": "bbb", "password": "3333", "role": 3}
+    ];
 
-    function checkForm() {
-      let username = document.getElementById("username").value.trim();
-      let password = document.getElementById("password").value;
-      let repassword =  document.getElementById("repassword").value;
-      let captchaInput =  document.getElementById("captcha").value;
-      let message = document.getElementById("message");
+    document.querySelector(`#submit`).onclick = function(e) {
+      e.preventDefault();
 
-      let captchaInt = parseInt(captchaInput);
-      let errors = [];
+      const username = document.querySelector(`#username`).value;
+      const password = document.querySelector(`#password`).value;
 
-      if (username.length === 0) {
-        errors.push('No username');
-      }
-      if (password === "" || repassword === "") {
-        errors.push("Passwords do not match");
-      } else if (password !== repassword) {
-        errors.push("Passwords do not match");
-      }
-      if (captchaInput === "" || captchaInt !== captchaValue) {
-        errors.push("Wrong captcha");
-      }
-
-      if(errors.length > 0) {
-        message.innerHTML = `<span class="text-danger">${errors.join(" and ")}</span>`;
+      const user = users.find(user => user.username === username && user.password === password);
+      if(user) {
+        window.location.assign(`asset.html`);
       } else {
-        message.innerHTML =`<span class="text-danger">Registration is complete</span>`;
+        Swal.fire ({
+          icon: 'error',
+          title: 'Error',
+          text: 'Login failed, try again!'
+        });
       }
-      
-      
+
 
     }
+
+
   </script>
 </body>
 </html>
