@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="public/bootstrap.min.css">
+  <script src="public/bootstrap.min.js"></script>
+  <title>AntiqueJSON</title>
+</head>
+<body>
+  <div class="container">
+    <div id="display" class="d-flex flex-wrap"></div>
+  </div>
+
+  <script>
+    const antique = 
+    `[{"title":"Antique 1","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","image":"old1.png","enable":false},
+     {"title":"Antique 2","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","image":"old2.png","enable":true},
+     {"title":"Antique 3","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","image":"old3.png","enable":true}, 
+     {"title":"Antique 4","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","image":"old4.png","enable":false}, 
+     {"title":"Antique 5","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","image":"old5.png","enable":true},
+     {"title":"Antique 6","description":"Lorem ipsum dolor sitamet, consectetur adipiscing elit.","image":"old6.png","enable":true}]`;
+
+     const antiqueJSON = JSON.parse(antique);
+
+     let data = "";
+     antiqueJSON.forEach(a => {
+      data += `<div class="card m-4 rounded-2 text-center shadow" style="width: 18rem; height:100%;">`;
+      data += `<img class="card-img-top" src="img/${a.image}" alt="${a.title}">`;
+      data += `<div class="card-body px-4">`;
+      data += `<h2 class="card-title">${a.title}</h2>`;
+      data += `<p class="card-text">${a.description}</p>`;
+      if (a.enable) {
+        data += `<button class="btn btn-primary">More info</button>`;
+      }
+      data += `</div>`;
+      data += `</div>`;
+     });
+     document.querySelector(`#display`).innerHTML = data;
+  </script>
+</body>
+</html>
