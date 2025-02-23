@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <script src="../public/js/bootstrap.min.js"></script>
+  <title>Fetch demo</title>
+</head>
+
+<body>
+    <h1 class="text-center my-5">MFU shop</h1>
+    <div class="container">
+      <div id="main" class="row g-3  justify-content-center"></div>
+  </div>
+
+  <div class="text-center mt-3" >
+    <h2 id="totalProduct">Total product = 0</h2>
+    <h2 id="totalPrice">Total price = 0</h2>
+    <button class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+  </div>
+    
+
+  <script>
+    const main = document.querySelector('#main');
+    loadProduct();
+
+    async function loadProduct() {
+      try {
+        const response = await fetch('http://localhost:9000/product');
+        if (!response.ok) {
+          throw Error('Bad response');
+        }
+        const data = await response.json();
+        data.forEach(function(product){
+          main.append(createCard(product));
+        });
+      } catch (err) {
+        console.error(err);
+        alert('System error, try again later');
+      }
+    }
+
+    function createCard(product) {
+        const cardCol = document.createElement('div');
+        cardCol.className = "col-lg-2 col-md-3 col-sm-6";
+
+        const card = document.createElement('div');
+        card.className = "card px-3 py-2 shadow";
+
+        let cardDetail = `<img class="card-img-top" src="../img/${product.image}" alt="${product.name}">`;
+        cardDetail += '<div class="card-body">';
+        cardDetail += `<h4 class="card-title">${product.name}</h4>`;
+        cardDetail += `<p class="card-text">${product.price} baht</p>`;
+        cardDetail += `<button class="btn btn-primary" onclick="addToCart(${product.price})">Add to cart</button></div>`;
+
+        card.innerHTML = cardDetail;
+        cardCol.appendChild(card);
+        return cardCol;
+      }
+
+      let cartCount = 0;
+      let cartTotal = 0;
+
+      function addToCart(price)  {
+        cartCount++;
+        cartTotal += price;
+        
+        document.getElementById('totalProduct').innerText = `Total product = ${cartCount}`;
+        document.getElementById('totalPrice').innerText = `Total price = ${cartTotal}`;
+      }
+
+      function clearCart() {
+        cartCount = 0;
+        cartTotal = 0;
+        
+        document.getElementById('totalProduct').innerText = `Total product = ${cartCount}`;
+        document.getElementById('totalPrice').innerText = `Total price = ${cartTotal}`;
+      }
+  </script>
+</body>
+
+</html>
